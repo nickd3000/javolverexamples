@@ -1,6 +1,6 @@
 package com.physmo.javolverexamples;
 
-import com.github.dragon66.AnimatedGIFWriter;
+//import com.github.dragon66.AnimatedGIFWriter;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

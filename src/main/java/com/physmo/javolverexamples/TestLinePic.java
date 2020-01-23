@@ -25,9 +25,11 @@ public class TestLinePic {
 
 		int populationSize = 3 * 5;
 		BufferedImage targetImage = null;
+
 		try {
 			// targetImage = ImageIO.read(new File("mona_lisa.jpg"));
-			targetImage = ImageIO.read(new File("odin.jpg"));
+			targetImage = ImageIO.read(new File(String.valueOf(TestLinePic.class.getResource("/odin.jpg").getFile())));
+			//targetImage = ImageIO.read(new File("odin.jpg"));
 		} catch (IOException e) {
 			System.out.println("Image not found.");
 		}

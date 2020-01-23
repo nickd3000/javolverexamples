@@ -7,6 +7,7 @@ import com.physmo.javolver.mutationstrategy.MutationStrategySimple;
 import com.physmo.javolver.mutationstrategy.MutationStrategySingle;
 import com.physmo.javolver.mutationstrategy.MutationStrategySwap;
 import com.physmo.javolver.selectionstrategy.SelectionStrategyRouletteRanked;
+import com.physmo.javolverexamples.TestLinePic;
 import com.physmo.minvio.BasicDisplay;
 import com.physmo.minvio.BasicDisplayAwt;
 import com.physmo.minvio.BasicGraph;
@@ -15,10 +16,11 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class PictureSolver {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
 
 
         int populationSize = 15; //100; //60; //0;//100;
@@ -26,12 +28,13 @@ public class PictureSolver {
 
         int numberOfDrawingElements = 350; //50;
         //Class drawerClass = DnaDrawerPolys.class;
-        //Class drawerClass = DnaDrawerSimpleSquares.class;
-        Class drawerClass = DnaDrawerString.class;
+        Class drawerClass = DnaDrawerSimpleSquares.class;
+        //Class drawerClass = DnaDrawerString.class;
 
         BufferedImage targetImage = null;
         try {
-            targetImage = ImageIO.read(new File("mona_lisa.jpg"));
+            //targetImage = ImageIO.read(new File("mona_lisa.jpg"));
+            targetImage = ImageIO.read(new File(String.valueOf(TestLinePic.class.getResource("/odin.jpg").getFile())));
             //targetImage = ImageIO.read(new File("odin.jpg"));
         } catch (IOException e) {
             System.out.println("Image not found.");
@@ -85,7 +88,7 @@ public class PictureSolver {
 
 
             if (j % 10 == 0) {
-                GenePicSolver top = (GenePicSolver) javolver.findBestScoringIndividual(null);
+                GenePicSolver top = (GenePicSolver) javolver.findBestScoringIndividual();
                 disp.drawImage(targetImage, 0, 0);
                 disp.drawImage(top.getImage(), targetImage.getWidth(), 0);
                 disp.refresh();
