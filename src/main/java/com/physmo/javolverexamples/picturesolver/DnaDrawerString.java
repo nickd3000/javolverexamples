@@ -16,7 +16,7 @@ public class DnaDrawerString implements DnaDrawer {
         int baseIndex = 0;
         double radius=Math.max(width,height)*0.5;
         dc.setColor(new Color(0,0,0,100));
-
+        dc.setStroke(new BasicStroke(3));
         for (int i=0;i<numObjects;i++) {
             baseIndex = objectSize * i;
 //            int x = (int)(dna.getDouble(baseIndex+0) * (double)width);

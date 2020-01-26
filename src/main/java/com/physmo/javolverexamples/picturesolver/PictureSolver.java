@@ -55,11 +55,12 @@ public class PictureSolver {
         int populationSize = 30; //100; //60; //0;//100;
         int scoreStep = 1;
 
-        int numberOfDrawingElements = 20; //50;
-        Class drawerClass = DnaDrawerPolys.class;
+        int numberOfDrawingElements = 200; //50;
+        //Class drawerClass = DnaDrawerPolys.class;
         //Class drawerClass = DnaDrawerSimpleSquares.class;
         //Class drawerClass = DnaDrawerString.class;
-        //Class drawerClass = DnaDrawerCircles.class;
+        Class drawerClass = DnaDrawerCircles.class;
+
 
         BufferedImage targetImage = null;
         try {
@@ -122,6 +123,10 @@ public class PictureSolver {
 
             if (j % 20 == 0) {
                 restartTimer++;
+                if (restartTimer>=50) {
+                    restartTimer=0;
+                    restart(bestIndividuals, javolver);
+                }
 
                 GenePicSolver top = (GenePicSolver) javolver.findBestScoringIndividual();
                 disp.drawImage(targetImage, 0, 0);
@@ -141,10 +146,7 @@ public class PictureSolver {
                 graph.draw(dispGraph, 0, 0, 400, 200, Color.BLUE);
                 dispGraph.refresh();
 
-                if (restartTimer>=5) {
-                    restartTimer=0;
-                    restart(bestIndividuals, javolver);
-                }
+
             }
 
         }
