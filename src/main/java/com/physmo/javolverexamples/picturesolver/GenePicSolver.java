@@ -61,7 +61,21 @@ public class GenePicSolver extends Individual {
 
     @Override
     public Individual clone() {
-        return new GenePicSolver(targetImage,drawerClass,numberOfDrawingElements,scoreStep);
+        GenePicSolver cloned = new GenePicSolver(targetImage,drawerClass,numberOfDrawingElements,scoreStep);
+        for (int i =0;i< dna.getSize();i++) {
+            cloned.dna.set(i,dna.getDouble(i));
+        }
+        return cloned;
+    }
+
+    public void resetDna() {
+        dna.init(dnaSize);
+    }
+
+    public void setDnaFromOther(GenePicSolver other) {
+        for (int i =0;i< dna.getSize();i++) {
+            dna.set(i,other.dna.getDouble(i));
+        }
     }
 
     @Override
