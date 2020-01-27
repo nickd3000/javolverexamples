@@ -8,7 +8,9 @@ import com.physmo.javolver.mutationstrategy.MutationStrategy;
 import com.physmo.javolver.mutationstrategy.MutationStrategySimple;
 import com.physmo.javolver.mutationstrategy.MutationStrategySingle;
 import com.physmo.javolver.mutationstrategy.MutationStrategySwap;
+import com.physmo.javolver.selectionstrategy.SelectionStrategyRoulette;
 import com.physmo.javolver.selectionstrategy.SelectionStrategyRouletteRanked;
+import com.physmo.javolver.selectionstrategy.SelectionStrategyTournament;
 import com.physmo.javolverexamples.TestLinePic;
 import com.physmo.minvio.BasicDisplay;
 import com.physmo.minvio.BasicDisplayAwt;
@@ -41,12 +43,23 @@ public class PictureSolver {
         int poolSize = javolver.getPool().size();
         int numBestIndividuals = bestIndividuals.size();
 
-        for (Individual thing : bestIndividuals) {
-            int i = (int)(Math.random()*(double)poolSize);
-            ((GenePicSolver)(javolver.getPool().get(i))).setDnaFromOther((GenePicSolver) thing);
+        if (numBestIndividuals<=5) return;
+
+        for (int i=0;i<5;i++) {
+            Individual thing = GetRandomIndividual(bestIndividuals);
+            int target = (int)(Math.random()*(double)poolSize);
+            ((GenePicSolver)(javolver.getPool().get(target))).setDnaFromOther((GenePicSolver) thing);
         }
 
+
     }
+
+    public static GenePicSolver GetRandomIndividual(List<GenePicSolver> bestIndividuals) {
+        int count = bestIndividuals.size();
+        int index = (int)(Math.random()*(double)count);
+        return bestIndividuals.get(index);
+    }
+
 
     public static void main(String[] args) throws FileNotFoundException {
 
@@ -55,7 +68,7 @@ public class PictureSolver {
         int populationSize = 30; //100; //60; //0;//100;
         int scoreStep = 1;
 
-        int numberOfDrawingElements = 200; //50;
+        int numberOfDrawingElements = 100; //50;
         //Class drawerClass = DnaDrawerPolys.class;
         //Class drawerClass = DnaDrawerSimpleSquares.class;
         //Class drawerClass = DnaDrawerString.class;
@@ -81,7 +94,7 @@ public class PictureSolver {
         MutationStrategy ms = new MutationStrategySimple(0.1, 0.5);
 
         Javolver javolver = new Javolver(gps, populationSize);
-        javolver.keepBestIndividualAlive(false).parallelScoring(false)
+        javolver.keepBestIndividualAlive(false).parallelScoring(true)
                 //.addMutationStrategy(new MutationStrategySimple(0.1, 0.1))
                 .addMutationStrategy(new MutationStrategySingle(0.1))
                 .addMutationStrategy(new MutationStrategySwap(0.1, 1))
@@ -89,9 +102,9 @@ public class PictureSolver {
                 //.addMutationStrategy(new MutationStrategyRandomize(0.1))
                 //.addMutationStrategy(new MutationStrategySwap(0.01, 2))
                 //.addMutationStrategy(new MutationStrategyGeneBased(gps.geneIdMutationFrequency,gps.geneIdMutationAmount))
-                //.setSelectionStrategy(new SelectionStrategyTournament(0.1))
+                .setSelectionStrategy(new SelectionStrategyTournament(0.1))
                 //.setSelectionStrategy(new SelectionStrategyRoulette())
-                .setSelectionStrategy(new SelectionStrategyRouletteRanked())
+                //.setSelectionStrategy(new SelectionStrategyRouletteRanked())
                 .setBreedingStrategy(new BreedingStrategyUniform());
         //.setBreedingStrategy(new BreedingStrategyCrossover());
 
@@ -123,9 +136,10 @@ public class PictureSolver {
 
             if (j % 20 == 0) {
                 restartTimer++;
-                if (restartTimer>=50) {
+                if (restartTimer>=5) {
                     restartTimer=0;
                     restart(bestIndividuals, javolver);
+                    continue;
                 }
 
                 GenePicSolver top = (GenePicSolver) javolver.findBestScoringIndividual();
