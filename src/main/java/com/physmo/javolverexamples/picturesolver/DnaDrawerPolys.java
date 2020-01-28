@@ -65,7 +65,7 @@ public class DnaDrawerPolys implements DnaDrawer {
         int r = (int)(dna.getDouble(baseIndex+7) * 255);
         int g = (int)(dna.getDouble(baseIndex+8) * 255);
         int b = (int)(dna.getDouble(baseIndex+9) * 255);
-        int a = 100; //(int)(dna.getDouble(baseIndex+10) * 255);
+        int a = (int)(dna.getDouble(baseIndex+10) * 255 / 2);
 
         dc.setColor(new Color(r,g,b,a));
         dc.fillPolygon(xl,yl,3);

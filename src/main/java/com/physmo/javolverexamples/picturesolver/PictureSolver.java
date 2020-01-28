@@ -65,14 +65,14 @@ public class PictureSolver {
 
         List<GenePicSolver> bestIndividuals = new ArrayList<>();
 
-        int populationSize = 30; //100; //60; //0;//100;
-        int scoreStep = 1;
+        int populationSize = 20; //100; //60; //0;//100;
+        int scoreStep = 5;
 
-        int numberOfDrawingElements = 100; //50;
-        //Class drawerClass = DnaDrawerPolys.class;
+        int numberOfDrawingElements = 20; //50;
+        Class drawerClass = DnaDrawerPolys.class;
         //Class drawerClass = DnaDrawerSimpleSquares.class;
         //Class drawerClass = DnaDrawerString.class;
-        Class drawerClass = DnaDrawerCircles.class;
+        //Class drawerClass = DnaDrawerCircles.class;
 
 
         BufferedImage targetImage = null;
@@ -94,19 +94,19 @@ public class PictureSolver {
         MutationStrategy ms = new MutationStrategySimple(0.1, 0.5);
 
         Javolver javolver = new Javolver(gps, populationSize);
-        javolver.keepBestIndividualAlive(false).parallelScoring(true)
-                //.addMutationStrategy(new MutationStrategySimple(0.1, 0.1))
+        javolver.keepBestIndividualAlive(true).parallelScoring(false)
+                .addMutationStrategy(new MutationStrategySimple(0.1, 0.1))
                 .addMutationStrategy(new MutationStrategySingle(0.1))
                 .addMutationStrategy(new MutationStrategySwap(0.1, 1))
                 //.addMutationStrategy(ms)
                 //.addMutationStrategy(new MutationStrategyRandomize(0.1))
                 //.addMutationStrategy(new MutationStrategySwap(0.01, 2))
                 //.addMutationStrategy(new MutationStrategyGeneBased(gps.geneIdMutationFrequency,gps.geneIdMutationAmount))
-                .setSelectionStrategy(new SelectionStrategyTournament(0.1))
+                .setSelectionStrategy(new SelectionStrategyTournament(0.2))
                 //.setSelectionStrategy(new SelectionStrategyRoulette())
                 //.setSelectionStrategy(new SelectionStrategyRouletteRanked())
-                .setBreedingStrategy(new BreedingStrategyUniform());
-        //.setBreedingStrategy(new BreedingStrategyCrossover());
+                //.setBreedingStrategy(new BreedingStrategyUniform());
+                .setBreedingStrategy(new BreedingStrategyCrossover());
 
 
         double previousScore = 0;
@@ -136,7 +136,7 @@ public class PictureSolver {
 
             if (j % 20 == 0) {
                 restartTimer++;
-                if (restartTimer>=5) {
+                if (restartTimer>=10) {
                     restartTimer=0;
                     restart(bestIndividuals, javolver);
                     continue;
