@@ -2,7 +2,7 @@ package com.physmo.javolverexamples.programming;
 
 public class SimpleMachine {
 
-    public final int memSize = 256+10;
+    public final int memSize = 256+100;
     public int [] memory = new int[memSize];
     public int [] memoryHits = new int[memSize];
     public int maxMemoryHits = 0;

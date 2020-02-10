@@ -9,7 +9,7 @@ import java.awt.*;
 public class GeneProgram extends Individual  {
 
     //public String word = "";
-    int programSize = 250;
+    int programSize = 250+100;
 
 
     double cyclePenalty = 0.0; // number of cycles involved in running program.

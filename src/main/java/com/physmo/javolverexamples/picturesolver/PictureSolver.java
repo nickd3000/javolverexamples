@@ -38,6 +38,7 @@ public class PictureSolver {
         // Randomise everyone
         for (Individual thing : javolver.getPool()) {
             ((GenePicSolver)thing).resetDna();
+            thing.setUnprocessed();
         }
 
         int poolSize = javolver.getPool().size();
@@ -65,12 +66,12 @@ public class PictureSolver {
 
         List<GenePicSolver> bestIndividuals = new ArrayList<>();
 
-        int populationSize = 20; //100; //60; //0;//100;
-        int scoreStep = 5;
+        int populationSize = 40; //100; //60; //0;//100;
+        int scoreStep = 2;
 
-        int numberOfDrawingElements = 20; //50;
-        Class drawerClass = DnaDrawerPolys.class;
-        //Class drawerClass = DnaDrawerSimpleSquares.class;
+        int numberOfDrawingElements = 50; //50;
+        //Class drawerClass = DnaDrawerPolys.class;
+        Class drawerClass = DnaDrawerSimpleSquares.class;
         //Class drawerClass = DnaDrawerString.class;
         //Class drawerClass = DnaDrawerCircles.class;
 
@@ -94,10 +95,10 @@ public class PictureSolver {
         MutationStrategy ms = new MutationStrategySimple(0.1, 0.5);
 
         Javolver javolver = new Javolver(gps, populationSize);
-        javolver.keepBestIndividualAlive(true).parallelScoring(false)
-                .addMutationStrategy(new MutationStrategySimple(0.1, 0.1))
-                .addMutationStrategy(new MutationStrategySingle(0.1))
-                .addMutationStrategy(new MutationStrategySwap(0.1, 1))
+        javolver.keepBestIndividualAlive(false).parallelScoring(false)
+                .addMutationStrategy(new MutationStrategySimple(0.1, 0.01))
+                //.addMutationStrategy(new MutationStrategySingle(0.1))
+                .addMutationStrategy(new MutationStrategySwap(0.01, 1))
                 //.addMutationStrategy(ms)
                 //.addMutationStrategy(new MutationStrategyRandomize(0.1))
                 //.addMutationStrategy(new MutationStrategySwap(0.01, 2))

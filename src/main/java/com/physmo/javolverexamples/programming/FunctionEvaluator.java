@@ -13,10 +13,10 @@ public class FunctionEvaluator implements ProgramEvaluator {
 
     double func(double x) {
         double a=x*4;
-        return Math.pow(2*a,2)-Math.pow(1*a,3);
+        //return Math.pow(2*a,2)-Math.pow(1*a,3);
 
         //return 1+x+(x*x)+Math.sin(x*10)*1;
-        //return (Math.sin(x*3)+0.6)*3;
+        return (Math.sin(x*9)+0.6)*3;
     }
 
     double scoreForExpected(double actual, double expected) {
@@ -47,7 +47,7 @@ public class FunctionEvaluator implements ProgramEvaluator {
 
     @Override
     public int getNumberOfSteps() {
-        return 10;
+        return 30;
     }
 
     @Override

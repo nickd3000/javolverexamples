@@ -45,7 +45,9 @@ public class GenePicSolver extends Individual {
         this.scoreStep = scoreStep;
         this.dnaSize=dnaSize;
 
-        img = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_INT_ARGB);
+        if (img==null) {
+            img = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_INT_ARGB);
+        }
     }
 
 
@@ -112,6 +114,7 @@ public class GenePicSolver extends Individual {
 
         double score = 0;
         score = testGridOfPoints(scoreStep);
+        //score = testRandomPoints(5000);
 
         double averaged = score * 500.0;
 
