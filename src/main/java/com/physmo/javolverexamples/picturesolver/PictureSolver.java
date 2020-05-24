@@ -66,14 +66,14 @@ public class PictureSolver {
 
         List<GenePicSolver> bestIndividuals = new ArrayList<>();
 
-        int populationSize = 40; //100; //60; //0;//100;
+        int populationSize = 10; //100; //60; //0;//100;
         int scoreStep = 2;
 
-        int numberOfDrawingElements = 50; //50;
+        int numberOfDrawingElements = 250; //50;
         //Class drawerClass = DnaDrawerPolys.class;
-        Class drawerClass = DnaDrawerSimpleSquares.class;
+        //Class drawerClass = DnaDrawerSimpleSquares.class;
         //Class drawerClass = DnaDrawerString.class;
-        //Class drawerClass = DnaDrawerCircles.class;
+        Class drawerClass = DnaDrawerCircles.class;
 
 
         BufferedImage targetImage = null;
@@ -137,7 +137,7 @@ public class PictureSolver {
 
             if (j % 20 == 0) {
                 restartTimer++;
-                if (restartTimer>=10) {
+                if (restartTimer>=100) {
                     restartTimer=0;
                     restart(bestIndividuals, javolver);
                     continue;
