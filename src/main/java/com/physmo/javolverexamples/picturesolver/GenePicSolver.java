@@ -12,9 +12,9 @@ public class GenePicSolver extends Individual {
 
     BufferedImage img = null;
     BufferedImage targetImage;
-    BufferedImage workImage = new BufferedImage(400,400,BufferedImage.TYPE_INT_RGB); // For scaled compare
+    static BufferedImage workImage = null;
 
-    int scoreStep = 0;
+    static int scoreStep = 0;
     int imgWidth = 200;
     int imgHeight = 200;
     int dnaSize = 0;
@@ -24,6 +24,7 @@ public class GenePicSolver extends Individual {
 
     public GenePicSolver(BufferedImage targetImage, Class drawerClass, int numberOfDrawingElements, int scoreStep) {
 
+        if (workImage==null) workImage = new BufferedImage(400,400,BufferedImage.TYPE_INT_RGB); // For scaled compare
         DnaDrawer dnaDrawer = null;
         try {
             dnaDrawer = (DnaDrawer) drawerClass.newInstance();
@@ -113,10 +114,13 @@ public class GenePicSolver extends Individual {
 
         drawer.render(dc, dna, imgWidth, imgHeight);
 
+        int compareScaledSize = 10*scoreStep;
+        if (compareScaledSize>200) compareScaledSize=200;
+if (Math.random()<0.001) System.out.println("compareScaledSize "+compareScaledSize);
         double score = 0;
         //score = testGridOfPoints(scoreStep);
         //score = testRandomPoints(5000);
-        score = compareScaled(10);
+        score = compareScaled(compareScaledSize);
 
         double averaged = score * 500.0;
 
@@ -192,7 +196,9 @@ public class GenePicSolver extends Individual {
             for (int x=0;x<size;x++) {
                 col1 = workImage.getRGB(x, y);
                 col2 = workImage.getRGB(x+size, y);
-                total+=Math.abs(getScoreFromColours(col1,col2));
+                double diff = Math.abs(getScoreFromColours(col1,col2));
+                diff=diff*diff;
+                total+=diff;
             }
         }
 

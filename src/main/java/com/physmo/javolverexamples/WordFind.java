@@ -20,7 +20,7 @@ public class WordFind {
         Javolver javolver = new Javolver(new GeneWord(targetWord), populationSize)
                 .keepBestIndividualAlive(true)
                 .parallelScoring(false)
-                .addMutationStrategy(new MutationStrategySimple(0.1, 0.25))
+                .addMutationStrategy(new MutationStrategySimple(0.01, 0.25))
                 //.setSelectionStrategy(new SelectionStrategyTournament(0.15))
                 .setSelectionStrategy(new SelectionStrategyRouletteRanked())
                 .setBreedingStrategy(new BreedingStrategyUniform());

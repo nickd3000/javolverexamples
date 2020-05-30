@@ -1,5 +1,6 @@
 package com.physmo.javolverexamples;
 
+import com.physmo.javolver.Descent;
 import com.physmo.javolver.Javolver;
 import com.physmo.javolver.breedingstrategy.BreedingStrategyUniform;
 import com.physmo.javolver.mutationstrategy.MutationStrategySimple;
@@ -16,12 +17,12 @@ public class SpherePacker {
 
 		BasicDisplay disp = new BasicDisplayAwt(300, 300);
 
-		int populationSize = 50;
-		int numberOfSpheres = 20;
+		int populationSize = 500;
+		int numberOfSpheres = 8;
 
 		Javolver testEvolver = new Javolver(new GeneSpherePacker(numberOfSpheres),populationSize)
 				.keepBestIndividualAlive(false)
-				.addMutationStrategy(new MutationStrategySimple(0.1, 0.2))
+				.addMutationStrategy(new MutationStrategySimple(0.01, 0.5))
 				.setSelectionStrategy(new SelectionStrategyTournament(0.15))
 				//.setSelectionStrategy(new SelectionStrategyRouletteRanked())
 				.setBreedingStrategy(new BreedingStrategyUniform());

@@ -1,5 +1,6 @@
 package com.physmo.javolverexamples.programming;
 
+import com.physmo.javolver.Descent;
 import com.physmo.javolver.Individual;
 import com.physmo.javolver.Javolver;
 import com.physmo.javolver.breedingstrategy.BreedingStrategyCrossover;
@@ -12,7 +13,7 @@ import com.physmo.minvio.BasicDisplay;
 import com.physmo.minvio.BasicDisplayAwt;
 
 public class TestProgram {
-    static int populationSize = 2500;
+    static int populationSize = 25;
     static int batchSize = 10;
 
 
@@ -20,10 +21,10 @@ public class TestProgram {
 
         BasicDisplay bd = new BasicDisplayAwt(400, 400);
 
-        Javolver testEvolver = new Javolver(new GeneProgram(WordEvaluator.class), populationSize)
+        Javolver testEvolver = new Javolver(new GeneProgram(FunctionEvaluator.class), populationSize)
                 .keepBestIndividualAlive(false)
                 .parallelScoring(false)
-                .addMutationStrategy(new MutationStrategySimple(0.1, 1))
+                .addMutationStrategy(new MutationStrategySimple(0.01, 1))
                 .addMutationStrategy(new MutationStrategySwap(0.1,1))
                 //.addMutationStrategy(new MutationStrategyRandomize(0.1))
                 .setSelectionStrategy(new SelectionStrategyTournament(0.15))
@@ -38,6 +39,7 @@ public class TestProgram {
 
             for (int i = 0; i < batchSize; i++) {
                 testEvolver.doOneCycle();
+                //Descent.descent2(testEvolver,4,1);
                 iteration++;
             }
 

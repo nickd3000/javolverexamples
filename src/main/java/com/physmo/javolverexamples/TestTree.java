@@ -1,5 +1,6 @@
 package com.physmo.javolverexamples;
 
+import com.physmo.javolver.Descent;
 import com.physmo.javolver.Javolver;
 import com.physmo.javolver.breedingstrategy.BreedingStrategyCrossover;
 import com.physmo.javolver.mutationstrategy.MutationStrategySimple;
@@ -22,7 +23,7 @@ public class TestTree {
 		BasicDisplay disp = new BasicDisplayAwt(400, 400);
 		AnimatedGifCreator gifCreator = new AnimatedGifCreator("tree.gif");
 
-		int populationTargetSize = 50;
+		int populationTargetSize = 250;
 
 		System.out.print("START");
 		for (int n = 0; n < 5; n++) {
@@ -32,7 +33,7 @@ public class TestTree {
 					.keepBestIndividualAlive(false)
 					.parallelScoring(false)
 					//.enableCompatability(0.3,0.4)
-					.addMutationStrategy(new MutationStrategySimple(0.1, 0.1))
+					.addMutationStrategy(new MutationStrategySimple(0.01, 0.5))
 					//.setSelectionStrategy(new SelectionStrategyTournament(0.1))
 					.setSelectionStrategy(new SelectionStrategyRouletteRanked())
 					.setBreedingStrategy(new BreedingStrategyCrossover());

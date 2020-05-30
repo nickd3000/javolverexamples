@@ -7,7 +7,7 @@ import java.awt.*;
 public class DnaDrawerCircles implements DnaDrawer {
 
     int objectSize = 8;
-    boolean enableTransparency = true;
+    boolean enableTransparency = false;
     double radiusDivider = 6.0;
 
 
@@ -24,8 +24,9 @@ public class DnaDrawerCircles implements DnaDrawer {
             ypos = (int) (dna.getDouble(baseIndex + 1) * height);
             rad = (int) (dna.getDouble(baseIndex + 2) * (width / radiusDivider) * 3.75); // 0.75
 
-            if (rad < 20) rad = 20;
-            rad = 40;
+            if (rad < 10) rad = 10;
+            if (rad > 40) rad = 40;
+            //rad = 40;
 
             for (int c = 0; c < 4; c++) {
                 cols[c] = (float) dna.getDouble(baseIndex + 3 + c);

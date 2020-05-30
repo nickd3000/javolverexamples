@@ -1,13 +1,11 @@
 package com.physmo.javolverexamples.picturesolver;
 
+import com.physmo.javolver.Descent;
 import com.physmo.javolver.Individual;
 import com.physmo.javolver.Javolver;
 import com.physmo.javolver.breedingstrategy.BreedingStrategyCrossover;
 import com.physmo.javolver.breedingstrategy.BreedingStrategyUniform;
-import com.physmo.javolver.mutationstrategy.MutationStrategy;
-import com.physmo.javolver.mutationstrategy.MutationStrategySimple;
-import com.physmo.javolver.mutationstrategy.MutationStrategySingle;
-import com.physmo.javolver.mutationstrategy.MutationStrategySwap;
+import com.physmo.javolver.mutationstrategy.*;
 import com.physmo.javolver.selectionstrategy.SelectionStrategyRoulette;
 import com.physmo.javolver.selectionstrategy.SelectionStrategyRouletteRanked;
 import com.physmo.javolver.selectionstrategy.SelectionStrategyTournament;
@@ -27,33 +25,6 @@ import java.util.List;
 
 public class PictureSolver {
 
-    public static void restart(List<GenePicSolver> bestIndividuals, Javolver javolver) {
-        GenePicSolver top = (GenePicSolver) javolver.findBestScoringIndividual();
-
-        // Record the current best individual.
-        bestIndividuals.add((GenePicSolver) top.clone());
-
-        System.out.println("Best list size: "+bestIndividuals.size());
-
-        // Randomise everyone
-        for (Individual thing : javolver.getPool()) {
-            ((GenePicSolver)thing).resetDna();
-            thing.setUnprocessed();
-        }
-
-        int poolSize = javolver.getPool().size();
-        int numBestIndividuals = bestIndividuals.size();
-
-        if (numBestIndividuals<=5) return;
-
-        for (int i=0;i<5;i++) {
-            Individual thing = GetRandomIndividual(bestIndividuals);
-            int target = (int)(Math.random()*(double)poolSize);
-            ((GenePicSolver)(javolver.getPool().get(target))).setDnaFromOther((GenePicSolver) thing);
-        }
-
-
-    }
 
     public static GenePicSolver GetRandomIndividual(List<GenePicSolver> bestIndividuals) {
         int count = bestIndividuals.size();
@@ -64,16 +35,16 @@ public class PictureSolver {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        List<GenePicSolver> bestIndividuals = new ArrayList<>();
+        //List<GenePicSolver> bestIndividuals = new ArrayList<>();
 
-        int populationSize = 10; //100; //60; //0;//100;
-        int scoreStep = 2;
+        int populationSize = 50; //100; //60; //0;//100;
+        int scoreStep = 1;
 
-        int numberOfDrawingElements = 250; //50;
-        //Class drawerClass = DnaDrawerPolys.class;
+        int numberOfDrawingElements = 30; //50;
+        Class drawerClass = DnaDrawerPolys.class;
         //Class drawerClass = DnaDrawerSimpleSquares.class;
         //Class drawerClass = DnaDrawerString.class;
-        Class drawerClass = DnaDrawerCircles.class;
+        //Class drawerClass = DnaDrawerCircles.class;
 
 
         BufferedImage targetImage = null;
@@ -96,11 +67,11 @@ public class PictureSolver {
 
         Javolver javolver = new Javolver(gps, populationSize);
         javolver.keepBestIndividualAlive(false).parallelScoring(false)
-                .addMutationStrategy(new MutationStrategySimple(0.1, 0.01))
+                .addMutationStrategy(new MutationStrategySimple(0.1, 0.2))
                 //.addMutationStrategy(new MutationStrategySingle(0.1))
                 .addMutationStrategy(new MutationStrategySwap(0.01, 1))
                 //.addMutationStrategy(ms)
-                //.addMutationStrategy(new MutationStrategyRandomize(0.1))
+                .addMutationStrategy(new MutationStrategyRandomize(0.1))
                 //.addMutationStrategy(new MutationStrategySwap(0.01, 2))
                 //.addMutationStrategy(new MutationStrategyGeneBased(gps.geneIdMutationFrequency,gps.geneIdMutationAmount))
                 .setSelectionStrategy(new SelectionStrategyTournament(0.2))
@@ -114,7 +85,7 @@ public class PictureSolver {
 
         double slidingMutationAmount = 1.0;
 
-        int restartTimer = 0;
+        int scoreStepChangeCooldown = 0;
 
         // Perform a few iterations of evolution.
         for (int j = 0; j < 3000000; j++) {
@@ -131,42 +102,41 @@ public class PictureSolver {
 
             // Call the evolver class to perform one evolution step.
             javolver.doOneCycle();
-            //Descent.descent2(testEvolver,4,0.52);//slidingMutationAmount);
+            //Descent.descent2(javolver,4,0.52);//slidingMutationAmount);
             //Descent.descent3(testEvolver,4,0.05);
 
 
             if (j % 20 == 0) {
-                restartTimer++;
-                if (restartTimer>=100) {
-                    restartTimer=0;
-                    restart(bestIndividuals, javolver);
-                    continue;
-                }
+
 
                 GenePicSolver top = (GenePicSolver) javolver.findBestScoringIndividual();
                 disp.drawImage(targetImage, 0, 0);
                 disp.drawImage(top.getImage(), targetImage.getWidth(), 0);
                 disp.refresh();
-                System.out.println("Score: " + top.getScore() + "(uamnt " + uamnt + "  freq: " + ufreq + ")" + "  M:" + slidingMutationAmount);
-
-//				if (previousScore == top.getScore()) {
-//					System.out.println("Earthquake!");
-//					earthquake(testEvolver.getPool(),0.001);
-//				}
-
-                previousScore = top.getScore();
+                System.out.println("Score: " + (int)(top.getScore()) + " Iteration: " + j +  "  (uamnt " + uamnt + "  freq: " + ufreq + ")" + "  M:" + slidingMutationAmount);
 
                 graph.addData(top.getScore());
+                //graph.addData((previousScore-top.getScore())*10);
                 dispGraph.cls(Color.WHITE);
                 graph.draw(dispGraph, 0, 0, 400, 200, Color.BLUE);
                 dispGraph.refresh();
 
 
+                scoreStepChangeCooldown++;
+                if (scoreStepChangeCooldown>50) {
+                    scoreStepChangeCooldown=0;
+                    System.out.println("Score Diff="+Math.abs(previousScore-top.getScore()));
+                    if (Math.abs(previousScore-top.getScore())<3) {
+                        scoreStep++;
+                        gps.scoreStep=scoreStep;
+                        System.out.println("Changed score step to "+scoreStep);
+                    }
+                    previousScore = top.getScore();
+                }
             }
 
         }
 
-        //disp.dr
     }
 
 }
