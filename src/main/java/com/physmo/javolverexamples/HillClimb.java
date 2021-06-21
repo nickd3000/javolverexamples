@@ -58,7 +58,7 @@ public class HillClimb {
                     disp.drawFilledCircle(x,y,3);
                 }
 
-                disp.refresh(30);
+                disp.repaint(30);
             }
 
         }

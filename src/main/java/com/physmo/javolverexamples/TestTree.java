@@ -57,7 +57,7 @@ public class TestTree {
 
 				disp.setDrawColor(Color.GREEN);
 				disp.drawLine(j, 50, j, 70);
-				disp.refresh();
+				disp.repaint();
 
 				System.out.println("Iterations " + iteration + "   Timer: " + disp.getEllapsedTime() + "  Score:"
 						+ best.getScore());

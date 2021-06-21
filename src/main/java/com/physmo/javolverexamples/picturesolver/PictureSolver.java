@@ -66,7 +66,7 @@ public class PictureSolver {
         MutationStrategy ms = new MutationStrategySimple(0.1, 0.5);
 
         Javolver javolver = new Javolver(gps, populationSize);
-        javolver.keepBestIndividualAlive(false).parallelScoring(false)
+        javolver.keepBestIndividualAlive(false).parallelScoring(true)
                 .addMutationStrategy(new MutationStrategySimple(0.1, 0.2))
                 //.addMutationStrategy(new MutationStrategySingle(0.1))
                 .addMutationStrategy(new MutationStrategySwap(0.01, 1))
@@ -101,8 +101,8 @@ public class PictureSolver {
             slidingMutationAmount *= 0.9998;
 
             // Call the evolver class to perform one evolution step.
-            javolver.doOneCycle();
-            //Descent.descent2(javolver,4,0.52);//slidingMutationAmount);
+            //javolver.doOneCycle();
+            Descent.descent2(javolver,4,0.52);//slidingMutationAmount);
             //Descent.descent3(testEvolver,4,0.05);
 
 
@@ -112,14 +112,14 @@ public class PictureSolver {
                 GenePicSolver top = (GenePicSolver) javolver.findBestScoringIndividual();
                 disp.drawImage(targetImage, 0, 0);
                 disp.drawImage(top.getImage(), targetImage.getWidth(), 0);
-                disp.refresh();
+                disp.repaint();
                 System.out.println("Score: " + (int)(top.getScore()) + " Iteration: " + j +  "  (uamnt " + uamnt + "  freq: " + ufreq + ")" + "  M:" + slidingMutationAmount);
 
                 graph.addData(top.getScore());
                 //graph.addData((previousScore-top.getScore())*10);
                 dispGraph.cls(Color.WHITE);
                 graph.draw(dispGraph, 0, 0, 400, 200, Color.BLUE);
-                dispGraph.refresh();
+                dispGraph.repaint();
 
 
                 scoreStepChangeCooldown++;

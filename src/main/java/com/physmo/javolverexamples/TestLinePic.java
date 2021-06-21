@@ -37,7 +37,7 @@ public class TestLinePic {
 		BasicDisplay disp = new BasicDisplayAwt(targetImage.getWidth() * 2, targetImage.getHeight());
 
 		Javolver testEvolver = new Javolver(new GeneLinePic(targetImage), populationSize);
-		testEvolver.keepBestIndividualAlive(true).parallelScoring(false)
+		testEvolver.keepBestIndividualAlive(true).parallelScoring(true)
 				.addMutationStrategy(new MutationStrategySimple(0.001, 0.0512))
 				.addMutationStrategy(new MutationStrategySwap(0.01, 2))
 				.setSelectionStrategy(new SelectionStrategyTournament(0.15))
@@ -55,7 +55,7 @@ public class TestLinePic {
 				GeneLinePic top = (GeneLinePic) testEvolver.findBestScoringIndividual();
 				disp.drawImage(targetImage, 0, 0);
 				disp.drawImage(top.getImage(), targetImage.getWidth(), 0);
-				disp.refresh();
+				disp.repaint(30);
 				System.out.println("Score: " + top.getScore());
 			}
 

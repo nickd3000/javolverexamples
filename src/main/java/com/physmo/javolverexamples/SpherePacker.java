@@ -38,8 +38,8 @@ public class SpherePacker {
 			//testEvolver.config.mutationAmount = anneal(5,0.1,15000,j);
 			
 			// The main evolution function.
-			testEvolver.doOneCycle();
-			//Descent.descent2(testEvolver, 3, 0.1);
+			//testEvolver.doOneCycle();
+			Descent.descent2(testEvolver, 3, 0.1);
 			
 			// Draw fittest individual every n frames.
 			//if ((j%25)==0) {
@@ -55,7 +55,7 @@ public class SpherePacker {
 				disp.setDrawColor(Color.white);
 				disp.drawRect(pad, pad, pad+boxSize, pad+boxSize);
 				
-				disp.refresh();
+				disp.repaint();
 			}
 			
 			if ((j%50)==0) { // Print report every few iterations.

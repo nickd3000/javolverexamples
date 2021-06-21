@@ -134,7 +134,7 @@ public class GeneProgram extends Individual  {
             //consoleOutput+=" "+stepScore;
         }
 
-        bd.refresh();
+        bd.repaint();
 
     }
 
